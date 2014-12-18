@@ -25,21 +25,17 @@ class RandomThread(Thread):
         self.delay = 6
         super(RandomThread, self).__init__()
  
+ 	## Find Tweets every X amount of seconds
     def tweetFinder(self):
-        """
-        Find Twitter location every 6 seconds
-        """
-        print "Finding Tweets"
-        while not thread_stop_event.isSet():
-            twit = Twitter()
-            twit.login()
+        print "Finding Tweets..."
 
-            ## Grab city name
-            cityName = twit.getUserTweets()
-            print cityName
-            
-            socketio.emit('newnumber', {'number': cityName}, namespace='/test')
-            sleep(self.delay)
+        while not thread_stop_event.isSet():
+        	twit = Twitter()
+        	twit.login()
+        	cityName = twit.getUserTweets()
+        	print cityName
+        	socketio.emit('newnumber', {'number': cityName}, namespace='/test')
+        	sleep(self.delay)
  
     def run(self):
         self.tweetFinder()
@@ -51,14 +47,14 @@ def index():
 @socketio.on('connect', namespace='/test')
 def test_connect():
     # need visibility of the global thread objects
+    print "We're working"
     global thread
     print('Client connected')
- 
-    #Start the random number generator thread only if the thread has not been started before.
+
     if not thread.isAlive():
-        print "Starting Thread"
-        thread = RandomThread()
-        thread.start()
+ 		print "Starting Thread"
+ 		thread = RandomThread()
+ 		thread.start()
 
 if __name__ == '__main__':
 	socketio.run(application)

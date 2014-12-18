@@ -7,50 +7,66 @@
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="static/css/style.css"/>
 	<link href='//fonts.googleapis.com/css?family=Russo+One|Changa+One|Roboto|Raleway:500|Luckiest+Guy' rel='stylesheet' type='text/css'>
-	<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
-	<style type="text/css">
-      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
-    </style>
-    <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDMHtxdOqOcu1EjQWhwlXb6cahz7nOsz8">
-    </script>
+	<link href='//fonts.googleapis.com/css?family=PT+Sans:400,700' rel='stylesheet' type='text/css'>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+	<style type="text/css"> html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}</style>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDMHtxdOqOcu1EjQWhwlXb6cahz7nOsz8"></script>
 </head>
 <body>
-	<h1 style="text-align:center;font-family:'Luckiest Guy', cursive;font-size: 110px;color: black;"> Where is Grant? </h1>
-	<div id="map-canvas"></div>
+	<h1 style="text-align:center;font-family:'Luckiest Guy', cursive;font-size: 110px;color: black;">Where is Grant?</h1>
+	<div style="text-align:center; width:1000px; height: 500px; display:block; margin:0 auto;" id="map-canvas"></div>
+	<div style="text-align: center; margin-top: 100px; margin-bottom: 50px; font-size: 8px; color: grey;"><p>A Grant McGovern Build.</p></div>
+	<p id="locationText"></p>
 </body>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+<!-- Local Scripts -->
 <script type="text/javascript">
-	var marker = new Array();
+	var socket = io.connect('https://' + document.domain + ':' + location.port + '/test');
 
-	var socket = io.connect('http://' + document.domain + ':' + location.port + '/test');
-
+	if(socket) {
+		console.log("We're connected");
+	}
+	
+	// Global map 
 	var map;
-	var mapOptions;
+	var latLong;
+
+	function initialize() {
+		var mapOptions = {
+		center: { lat: -0.08074952, lng: 51.52580263},
+		zoom: 8
+		};
+		
+		map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+	}
+
+	google.maps.event.addDomListener(window, 'load', initialize);
+
+	var markers = new Array();
+
+	// Local Vars for Storing Lat/Long
+	var lat;
+	var lng;
 
 	socket.on('newnumber', function(data){
-	  var mapOptions = {
-	    center: new google.maps.LatLng(10.191, -68.192),
-	    zoom: 7,
-	    mapTypeId: google.maps.MapTypeId.ROADMAP
-	  };
-	  var mark = marker[data[0], data[1]];
-	    if(mark){
-	      mark.setPosition(new google.maps.LatLng(data[0],data[1]));
-	    }else{
-	      marker[Number(data['test'])] = new google.maps.Marker({
-	                    position: new google.maps.LatLng(data[0],data[1]),
-	                    map: map,
-	                    title: String(data['test']),
-	                  });
-	    }
-	});	
+		lat = data.number[0];
+		lng = data.number[1];
+		$('#locationText').text(data.number[3]);
+		console.log("Lat: " + lat + " Long: " + lng);
+	
+		// Construct new LatLong Object 
+		var myLatlng = new google.maps.LatLng(lng, lat);
+		latLong = myLatlng;
 
-	map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
-
-
-		//google.maps.event.addDomListener(window, "load", initialize);
+		// Draw marker on the map 
+		var marker = new google.maps.Marker({
+		    position: myLatlng,
+		    map: map,
+		    title: data.number[3]
+		});		
+		map.panTo(latLong);
+	});
 
 </script>
 </html>
