@@ -56,7 +56,6 @@ class Twitter():
 
 		return locationPacket
 
-
 ## Debug Purposes 
 '''
 if __name__ == "__main__":
