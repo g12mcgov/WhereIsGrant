@@ -22,7 +22,8 @@ thread_stop_event = Event()
  
 class RandomThread(Thread):
     def __init__(self):
-        self.delay = 6
+    	## Every 30 minutes
+        self.delay = 1800
         super(RandomThread, self).__init__()
  
  	## Find Tweets every X amount of seconds

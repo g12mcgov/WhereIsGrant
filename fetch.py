@@ -2,7 +2,7 @@
 
 import tweepy
 import json 
-from geopy import geocoders 
+from geopy.geocoders import Nominatim 
 
 class Twitter():
 	def __init__(self):
@@ -15,6 +15,7 @@ class Twitter():
 		## Access Tokens 
 		self.access_token = '45555007-dJKIsb3Lqt3h12XvZcPgDoG9dtzyy93Uq7djsG2Wq'
 		self.access_token_secret = 'UH6VVIF56ei6y5ktAmkIw0wF7wlDUYEwwTXrfZksPpbvP'
+		self.geolocater = Nominatim()
 
 	def login(self):
 		## Authenticate App
@@ -33,22 +34,29 @@ class Twitter():
 
 		while(True):
 			## Recursively check for the first Tweet with a location
-			itr += 1
 			location = status[itr].place
 
 			## If we found a location, pull off the coordinates 
 			if(location):
 				cityName = status[itr].place.full_name
-				latLng = status[itr].coordinates['coordinates']
+
+				## We generalize the address here by sending the city name
+				## to geocoders and getting the general lat/long back
+				geo_response = self.geolocater.geocode(str(cityName))
+				lat = geo_response.latitude
+				lng = geo_response.longitude
+
 				break
 			else:
 				pass
+
+			itr += 1
 		
 		## This should be a dict, but I don't feel like fooling with 
 		## socket.io's acceptance of the data on the frontend...
 		locationPacket = [
-					latLng[0],
-					latLng[1], 
+					lng,
+					lat, 
 					cityName
 					]
 
@@ -56,11 +64,12 @@ class Twitter():
 
 		return locationPacket
 
+
 ## Debug Purposes 
-'''
+
 if __name__ == "__main__":
 	temp = Twitter()
 	temp.login()
 	temp.getUserTweets()
-'''
+
 	
