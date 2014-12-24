@@ -9,13 +9,16 @@ class Twitter():
 		self.api = ""
 
 		## Consumer Credentials
-		self.consumer_key = 'lZqAC2G5ReXqFD1G7VYqumbCv'
-		self.consumer_secret = 'slijdIL4mMtz09Ism7eCurqfHbxJ8RaodvG6GbOhKlmdg2RWas'
+		self.consumer_key = 'lZqAC2G5ReVYqumbCv'
+		self.consumer_secret = 'slijdIL4mMxJ8RaodvG6GbOhKlmdg2RWas'
 
 		## Access Tokens 
 		self.access_token = '45555007-dJKIsb3Lqt3h12XvZcPgDoG9dtzyy93Uq7djsG2Wq'
 		self.access_token_secret = 'UH6VVIF56ei6y5ktAmkIw0wF7wlDUYEwwTXrfZksPpbvP'
+		
+		## Create GeoLocater instance
 		self.geolocater = Nominatim()
+
 
 	def login(self):
 		## Authenticate App
