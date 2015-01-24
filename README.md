@@ -7,7 +7,7 @@ What is it?
 ============
 A live tracker to show where I'm at on a map. Inspired by cdzombak's app, WhereIsChris.
 
-whereisgrant.herokupapp.com
+[whereisgrant.herokupapp.com](http://whereisgrant.herokuapp.com)
 
 One day it will have its own custom URL
 
