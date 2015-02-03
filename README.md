@@ -22,4 +22,4 @@ It's really simple. It's all hosted on Heroku too.
 
 Room for Improvement?
 ============
-This is a bare-bones project I whipped up because I was bored. I'll change it to make it look prettier and mobile-optimized. Maybe even add it as a page to my personal site, grantmcgovern.com.
+This is a bare-bones project I whipped up because I was bored. I'll change it to make it look prettier and mobile-optimized. Maybe even add it as a page to my personal site, [grantmcgovern.com](http://www.grantmcgovern.com).
