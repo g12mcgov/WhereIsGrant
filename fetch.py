@@ -9,12 +9,12 @@ class Twitter():
 		self.api = ""
 
 		## Consumer Credentials
-		self.consumer_key = 'lZqumbCv'
-		self.consumer_secret = 'slijdIL4mMxJ8Rdg2RWas'
+		self.consumer_key = 'lZbCv'
+		self.consumer_secret = 'slijdIL4g2RWas'
 
 		## Access Tokens 
-		self.access_token = '45555007-dJKIsbtzyy93Uq7djsG2Wq'
-		self.access_token_secret = 'UH6VVIFwlDUYEwwTXrfZksPpbvP'
+		self.access_token = '45555007-dJKsG2Wq'
+		self.access_token_secret = 'UH6VVIFwlfZksPpbvP'
 		
 		## Create GeoLocater instance
 		self.geolocater = Nominatim()
